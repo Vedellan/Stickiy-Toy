@@ -1,17 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class CircleMove : MonoBehaviour
 {
-    [SerializeField]
     VariableJoystick variableJoystick;
-    [SerializeField]
+
     Rigidbody2D rb;
-    [SerializeField]
     Vector2 moveVector;
-    public float moveSpeed = 10;
+    public float moveSpeed = 20f;
+
     Vector2 limitPos;
+    public float limitLength  = 3f;
+    public float limitVelocity = 5f;
 
     void Start()
     {
@@ -19,19 +21,40 @@ public class CircleMove : MonoBehaviour
         variableJoystick = GameObject.Find("Variable Joystick").GetComponent<VariableJoystick>();
     }
 
-    // Update is called once per frame
+    private void Update()
+    {
+        transform.position = ClampCirclePosition();
+        rb.velocity = ClampCircleVelocity();
+        transform.rotation = SmoothChangeRotation();
+        
+    }
+
     void FixedUpdate()
     {
+        Move();
+    }
+
+    private void Move()
+    {
         moveVector = variableJoystick.Direction;
-
         rb.AddForce(moveSpeed * Time.deltaTime * moveVector, ForceMode2D.Force);
-
-        limitPos = ClampCirclePosition();
-        transform.position = limitPos;
     }
 
     Vector2 ClampCirclePosition()
     {
-        return Vector2.ClampMagnitude(moveVector, 30f);
+        // Circle의 포지션을 원형으로 제한
+        return Vector2.ClampMagnitude(transform.position, limitLength);
+    }
+
+    Vector2 ClampCircleVelocity()
+    {
+        return Vector2.ClampMagnitude(rb.velocity, limitVelocity);
+    }
+
+    Quaternion SmoothChangeRotation()
+    {
+        float angle = Mathf.Atan2(variableJoystick.Horizontal, variableJoystick.Vertical) * Mathf.Rad2Deg;
+        Quaternion rotation = Quaternion.AngleAxis(-angle, Vector3.forward);
+        return rotation;
     }
 }
