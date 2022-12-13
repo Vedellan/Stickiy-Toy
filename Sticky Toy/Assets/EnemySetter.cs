@@ -6,16 +6,33 @@ using UnityEngine;
 public class EnemySetter : MonoBehaviour
 {
     public Transform[] enemys;
+    Coroutine spawnEnemy;
+    float spawnTime = 3f;
 
     private void Start()
     {
-        InvokeRepeating(nameof(CreateEnemy), 3f, 3f);
+        spawnEnemy = StartCoroutine(CreateEnemy());
+        GameManager.instance.onGameStart.AddListener(SpawnEnemy);
     }
 
-    public void CreateEnemy()
+    private void SpawnEnemy()
     {
-        enemys[0].position = SetRandomPosition();
-        enemys[0].gameObject.SetActive(true);
+        if(spawnEnemy != null)
+        {
+            StopCoroutine(spawnEnemy);
+        }
+
+        spawnEnemy = StartCoroutine(CreateEnemy());
+    }
+
+    public IEnumerator CreateEnemy()
+    {
+        while(true)
+        {
+            enemys[0].position = SetRandomPosition();
+            enemys[0].gameObject.SetActive(true);
+            yield return new WaitForSeconds(spawnTime);
+        }
     }
 
     Vector2 SetRandomPosition()

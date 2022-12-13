@@ -12,11 +12,12 @@ public class PlayerMove : MonoBehaviour
     Rigidbody2D rb;
     Vector3 startPosition;
     Vector2 moveVector;
-    public float moveSpeed = 20f;
+    public float moveSpeed = 25f;
 
     Vector2 limitPos;
     public float limitLength  = 3f;
-    public float limitVelocity = 5f;
+    public float limitVelocity = 20f;
+    public float deathThreshold = 38.44f;
 
     private void Awake()
     {
@@ -28,22 +29,23 @@ public class PlayerMove : MonoBehaviour
     private void OnEnable()
     {
         playerControl.Enable();
-        GameManager.instance.onGameStart.AddListener(SetStartPosition);
     }
 
     private void OnDisable()
     {
         playerControl.Disable();
+        GameManager.instance.onGameStart.RemoveListener(SetStartPosition);
     }
 
     void Start()
     {
+        GameManager.instance.onGameStart.AddListener(SetStartPosition);
         /*variableJoystick = GameObject.Find("Variable Joystick").GetComponent<VariableJoystick>();*/
     }
 
     private void Update()
     {
-        transform.position = ClampCirclePosition();
+        CheckOutSafeZone();
         rb.velocity = ClampCircleVelocity();
         /*transform.rotation = SmoothChangeRotation();*/
     }
@@ -72,6 +74,14 @@ public class PlayerMove : MonoBehaviour
         rb.velocity = Vector2.zero;
     }
 
+    void CheckOutSafeZone()
+    {
+        if(transform.position.sqrMagnitude >= deathThreshold)
+        {
+            GameManager.instance.onGameOver.Invoke();
+        }
+    }
+
     Vector2 ClampCirclePosition()
     {
         // Circle의 포지션을 원형으로 제한
@@ -88,5 +98,10 @@ public class PlayerMove : MonoBehaviour
         float angle = Mathf.Atan2(variableJoystick.Horizontal, variableJoystick.Vertical) * Mathf.Rad2Deg;
         Quaternion rotation = Quaternion.AngleAxis(-angle, Vector3.forward);
         return rotation;
+    }
+
+    void PlayerDeadEffect()
+    {
+
     }
 }

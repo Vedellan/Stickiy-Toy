@@ -963,8 +963,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 25
-  limitLength: 6
-  limitVelocity: 25
+  limitLength: 3
+  limitVelocity: 20
+  deathThreshold: 38.44
 --- !u!50 &651212566
 Rigidbody2D:
   serializedVersion: 4
