@@ -13,9 +13,15 @@ public class EnemyMain : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Flag"))
-        {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Flag"))
+        {  
             GameManager.instance.onGameOver.Invoke();
+            gameObject.SetActive(false);
+        }
+
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Player"))
+        {
+            gameObject.SetActive(false);
         }
     }
 

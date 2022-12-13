@@ -15,6 +15,7 @@ public class EnemySetter : MonoBehaviour
     public void CreateEnemy()
     {
         enemys[0].position = SetRandomPosition();
+        enemys[0].gameObject.SetActive(true);
     }
 
     Vector2 SetRandomPosition()

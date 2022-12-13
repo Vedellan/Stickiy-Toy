@@ -22,11 +22,14 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this);
         }
+
+        gameInput = new GameInput();
     }
 
     private void Start()
     {
         onGameOver.AddListener(GameOver);
+        onGameStart.AddListener(StartGame);
 
         onGameStart.Invoke();
     }
@@ -43,7 +46,12 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        Time.timeScale = 0f;
+    }
 
+    public void StartGame()
+    {
+        Time.timeScale = 1f;
     }
 
     public void RestartGame(InputAction.CallbackContext ctx)

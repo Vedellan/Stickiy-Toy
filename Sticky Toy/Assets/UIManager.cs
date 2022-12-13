@@ -29,6 +29,18 @@ public class UIManager : MonoBehaviour
         GameManager.instance.onGameOver.AddListener(OpenGameOverUI);
     }
 
+    /*private void OnEnable()
+    {
+        GameManager.instance.onGameStart.AddListener(CloseGameOverUI);
+        GameManager.instance.onGameOver.AddListener(OpenGameOverUI);
+    }*/
+
+    private void OnDisable()
+    {
+        GameManager.instance.onGameStart.RemoveListener(CloseGameOverUI);
+        GameManager.instance.onGameOver.RemoveListener(OpenGameOverUI);
+    }
+
     void OpenGameOverUI()
     {
         gameOverPanel.SetActive(true);
