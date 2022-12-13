@@ -10,6 +10,7 @@ public class PlayerMove : MonoBehaviour
     VariableJoystick variableJoystick;
 
     Rigidbody2D rb;
+    Vector3 startPosition;
     Vector2 moveVector;
     public float moveSpeed = 20f;
 
@@ -19,12 +20,15 @@ public class PlayerMove : MonoBehaviour
 
     private void Awake()
     {
+        rb = GetComponent<Rigidbody2D>();
         playerControl = new PlayerControl();
+        startPosition = new Vector3(0, -3, 0);
     }
 
     private void OnEnable()
     {
         playerControl.Enable();
+        GameManager.instance.onGameStart.AddListener(SetStartPosition);
     }
 
     private void OnDisable()
@@ -34,7 +38,6 @@ public class PlayerMove : MonoBehaviour
 
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
         /*variableJoystick = GameObject.Find("Variable Joystick").GetComponent<VariableJoystick>();*/
     }
 
@@ -61,6 +64,12 @@ public class PlayerMove : MonoBehaviour
     {
         moveVector = playerControl.PlayerAction.Move.ReadValue<Vector2>();
         rb.AddForce(moveSpeed * Time.deltaTime * moveVector, ForceMode2D.Force);
+    }
+
+    void SetStartPosition()
+    {
+        transform.position = startPosition;
+        rb.velocity = Vector2.zero;
     }
 
     Vector2 ClampCirclePosition()

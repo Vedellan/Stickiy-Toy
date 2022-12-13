@@ -943,7 +943,7 @@ GameObject:
   - component: {fileID: 651212566}
   - component: {fileID: 651212565}
   - component: {fileID: 651212569}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -962,9 +962,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0978ae4e44eabc5439817e33980a31ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 20
+  moveSpeed: 25
   limitLength: 6
-  limitVelocity: 12
+  limitVelocity: 25
 --- !u!50 &651212566
 Rigidbody2D:
   serializedVersion: 4
@@ -978,7 +978,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 0.01
-  m_LinearDrag: 1.2
+  m_LinearDrag: 1
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -1639,7 +1639,7 @@ Transform:
   m_GameObject: {fileID: 1577182201}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 12, y: 12, z: 1}
+  m_LocalScale: {x: 13, y: 13, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1799003139}
