@@ -1,0 +1,51 @@
+{
+    "name": "GameInput",
+    "maps": [
+        {
+            "name": "Game Actions",
+            "id": "e71c3dd9-a0a8-4a28-a4e7-7a0f1d7ef6f2",
+            "actions": [
+                {
+                    "name": "Restart",
+                    "type": "Button",
+                    "id": "031d4f9f-1ce8-4c06-aa10-547466e36190",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "d171edc6-801c-449e-8346-609f1fe529d4",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PC",
+                    "action": "Restart",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "PC",
+            "bindingGroup": "PC",
+            "devices": [
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Mouse>",
+                    "isOptional": true,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
+}

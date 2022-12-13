@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class CircleMove : MonoBehaviour
+public class PlayerMove : MonoBehaviour
 {
+    PlayerControl playerControl;
     VariableJoystick variableJoystick;
 
     Rigidbody2D rb;
@@ -15,28 +17,49 @@ public class CircleMove : MonoBehaviour
     public float limitLength  = 3f;
     public float limitVelocity = 5f;
 
+    private void Awake()
+    {
+        playerControl = new PlayerControl();
+    }
+
+    private void OnEnable()
+    {
+        playerControl.Enable();
+    }
+
+    private void OnDisable()
+    {
+        playerControl.Disable();
+    }
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        variableJoystick = GameObject.Find("Variable Joystick").GetComponent<VariableJoystick>();
+        /*variableJoystick = GameObject.Find("Variable Joystick").GetComponent<VariableJoystick>();*/
     }
 
     private void Update()
     {
         transform.position = ClampCirclePosition();
         rb.velocity = ClampCircleVelocity();
-        transform.rotation = SmoothChangeRotation();
-        
+        /*transform.rotation = SmoothChangeRotation();*/
     }
 
     void FixedUpdate()
     {
-        Move();
+        OnMove();
     }
 
     private void Move()
     {
+        /* Android Move
         moveVector = variableJoystick.Direction;
+        */
+        rb.AddForce(moveSpeed * Time.deltaTime * moveVector, ForceMode2D.Force);
+    }
+    public void OnMove()
+    {
+        moveVector = playerControl.PlayerAction.Move.ReadValue<Vector2>();
         rb.AddForce(moveSpeed * Time.deltaTime * moveVector, ForceMode2D.Force);
     }
 
