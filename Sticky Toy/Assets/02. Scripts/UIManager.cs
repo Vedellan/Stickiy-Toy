@@ -1,18 +1,22 @@
+using TMPro;
 using UnityEngine;
 
 public class UIManager : Singleton<UIManager>
 {
     GameObject gameOverPanel;
+    [SerializeField]
+    TextMeshProUGUI scoreText;
 
     private void Awake()
     {
         gameOverPanel = GameObject.Find("GameOverPanel");
+        scoreText = GameObject.Find("Score Text (TMP)").GetComponent<TextMeshProUGUI>();
     }
 
     private void Start()
     {
-        GameManager.Instance.onGameStart.AddListener(CloseGameOverUI);
-        GameManager.Instance.onGameOver.AddListener(OpenGameOverUI);
+        GameManager.Instance.onGameStart.AddListener(GameStart_UIManager);
+        GameManager.Instance.onGameOver.AddListener(GameOver_UIManager);
     }
 
     /*private void OnEnable()
@@ -23,17 +27,33 @@ public class UIManager : Singleton<UIManager>
 
     private void OnDisable()
     {
-        GameManager.Instance.onGameStart.RemoveListener(CloseGameOverUI);
-        GameManager.Instance.onGameOver.RemoveListener(OpenGameOverUI);
+        GameManager.Instance.onGameStart.RemoveListener(GameStart_UIManager);
+        GameManager.Instance.onGameOver.RemoveListener(GameOver_UIManager);
     }
 
-    void OpenGameOverUI()
+    private void GameStart_UIManager()
+    {
+        CloseGameOverUI();
+    }
+
+    private void GameOver_UIManager()
+    {
+        ShowScore();
+        OpenGameOverUI();
+    }
+
+    private void OpenGameOverUI()
     {
         gameOverPanel.SetActive(true);
     }
 
-    void CloseGameOverUI()
+    private void CloseGameOverUI()
     {
         gameOverPanel.SetActive(false);
+    }
+
+    void ShowScore()
+    {
+        scoreText.text = "You survived " + (int)GameManager.Instance.GameTime + " seconds!";
     }
 }

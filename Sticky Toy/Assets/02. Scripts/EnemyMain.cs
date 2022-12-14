@@ -4,7 +4,14 @@ using UnityEngine;
 
 public class EnemyMain : MonoBehaviour
 {
-    public Enemy myType;
+    public Enemy myType = null;
+    Vector2 moveVector = Vector2.zero;
+    [SerializeField] float moveSpeed = 7f;
+
+    private void OnEnable()
+    {
+        moveVector = new Vector2(-transform.position.x, -transform.position.y).normalized;
+    }
 
     void Update()
     {
@@ -15,7 +22,6 @@ public class EnemyMain : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Flag"))
         {  
-            GameManager.Instance.onGameOver.Invoke();
             gameObject.SetActive(false);
         }
 
@@ -27,6 +33,6 @@ public class EnemyMain : MonoBehaviour
 
     void MoveToCenter()
     {
-        transform.position = Vector2.Lerp(transform.position, Vector2.zero, Time.deltaTime);
+        transform.Translate(moveSpeed * Time.deltaTime * moveVector);
     }
 }

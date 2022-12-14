@@ -30,12 +30,14 @@ public class PlayerMove : MonoBehaviour
     private void OnDisable()
     {
         playerControl.Disable();
-        GameManager.Instance.onGameStart.RemoveListener(SetStartPosition);
+        GameManager.Instance.onGameStart.RemoveListener(GameStart_Player);
+        GameManager.Instance.onGameStart.RemoveListener(GameOver_Player);
     }
 
     void Start()
     {
-        GameManager.Instance.onGameStart.AddListener(SetStartPosition);
+        GameManager.Instance.onGameStart.AddListener(GameStart_Player);
+        GameManager.Instance.onGameStart.AddListener(GameOver_Player);
         /*variableJoystick = GameObject.Find("Variable Joystick").GetComponent<VariableJoystick>();*/
     }
 
@@ -49,6 +51,16 @@ public class PlayerMove : MonoBehaviour
     void FixedUpdate()
     {
         OnMove();
+    }
+
+    void GameStart_Player()
+    {
+        SetStartPosition();
+    }
+
+    void GameOver_Player()
+    {
+        rb.velocity = Vector2.zero;
     }
 
     private void Move()
@@ -66,7 +78,6 @@ public class PlayerMove : MonoBehaviour
 
     void SetStartPosition()
     {
-        rb.velocity = Vector2.zero;
         transform.position = startPosition;
     }
 

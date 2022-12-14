@@ -5,12 +5,21 @@ public class EnemySetter : MonoBehaviour
 {
     public Transform[] enemys;
     Coroutine spawnEnemy;
-    float spawnTime = 3f;
+    public float spawnTime = 1f;
 
     private void Start()
     {
         spawnEnemy = StartCoroutine(CreateEnemy());
-        GameManager.Instance.onGameStart.AddListener(SpawnEnemy);
+        GameManager.Instance.onGameStart.AddListener(GameStart_EnemySetter);
+    }
+
+    private void GameStart_EnemySetter()
+    {
+        for(int i = 0; i < enemys.Length; i++)
+        {
+            enemys[i].gameObject.SetActive(false);
+        }
+        SpawnEnemy();
     }
 
     private void SpawnEnemy()
@@ -25,11 +34,14 @@ public class EnemySetter : MonoBehaviour
 
     public IEnumerator CreateEnemy()
     {
-        while(true)
+        while (true)
         {
-            enemys[0].position = SetRandomPosition();
-            enemys[0].gameObject.SetActive(true);
-            yield return new WaitForSeconds(spawnTime);
+            for (int i = 0; i < enemys.Length; i++)
+            {
+                enemys[i].position = SetRandomPosition();
+                enemys[i].gameObject.SetActive(true);
+                yield return new WaitForSeconds(spawnTime);
+            }
         }
     }
 

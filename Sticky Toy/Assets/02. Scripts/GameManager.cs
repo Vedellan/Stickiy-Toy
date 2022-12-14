@@ -9,6 +9,15 @@ public class GameManager : Singleton<GameManager>
 
     GameInput gameInput;
 
+    private float gameTime = 0f;
+    public float GameTime
+    {
+        get
+        {
+            return gameTime;
+        }
+    }
+
     private void Awake()
     {
         gameInput = new GameInput();
@@ -16,10 +25,16 @@ public class GameManager : Singleton<GameManager>
 
     private void Start()
     {
-        onGameOver.AddListener(GameOver);
-        onGameStart.AddListener(StartGame);
+        onGameStart.AddListener(GameStart_GameManager);
+        onGameOver.AddListener(GameOver_GameManager);
 
         onGameStart.Invoke();
+    }
+
+    private void Update()
+    {
+        gameTime += Time.deltaTime;
+        Debug.Log(gameTime);
     }
 
     private void OnEnable()
@@ -32,14 +47,15 @@ public class GameManager : Singleton<GameManager>
         gameInput.GameActions.Restart.started -= RestartGame;
     }
 
-    public void GameOver()
+    private void GameOver_GameManager()
     {
         Time.timeScale = 0f;
     }
 
-    public void StartGame()
+    private void GameStart_GameManager()
     {
         Time.timeScale = 1f;
+        gameTime = 0f;
     }
 
     public void RestartGame(InputAction.CallbackContext ctx)
