@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 public class EnemySetter : MonoBehaviour
@@ -12,7 +10,7 @@ public class EnemySetter : MonoBehaviour
     private void Start()
     {
         spawnEnemy = StartCoroutine(CreateEnemy());
-        GameManager.instance.onGameStart.AddListener(SpawnEnemy);
+        GameManager.Instance.onGameStart.AddListener(SpawnEnemy);
     }
 
     private void SpawnEnemy()

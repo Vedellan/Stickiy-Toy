@@ -15,7 +15,7 @@ public class EnemyMain : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Flag"))
         {  
-            GameManager.instance.onGameOver.Invoke();
+            GameManager.Instance.onGameOver.Invoke();
             gameObject.SetActive(false);
         }
 

@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -34,12 +30,12 @@ public class PlayerMove : MonoBehaviour
     private void OnDisable()
     {
         playerControl.Disable();
-        GameManager.instance.onGameStart.RemoveListener(SetStartPosition);
+        GameManager.Instance.onGameStart.RemoveListener(SetStartPosition);
     }
 
     void Start()
     {
-        GameManager.instance.onGameStart.AddListener(SetStartPosition);
+        GameManager.Instance.onGameStart.AddListener(SetStartPosition);
         /*variableJoystick = GameObject.Find("Variable Joystick").GetComponent<VariableJoystick>();*/
     }
 
@@ -70,15 +66,15 @@ public class PlayerMove : MonoBehaviour
 
     void SetStartPosition()
     {
-        transform.position = startPosition;
         rb.velocity = Vector2.zero;
+        transform.position = startPosition;
     }
 
     void CheckOutSafeZone()
     {
         if(transform.position.sqrMagnitude >= deathThreshold)
         {
-            GameManager.instance.onGameOver.Invoke();
+            GameManager.Instance.onGameOver.Invoke();
         }
     }
 
